@@ -1,39 +1,30 @@
-// Java program to implement Max Heap 
-public class HeapTree { 
-	private int[] Heap; 
-	private int size; 
-	private int maxsize; 
+public class HeapTree {
+    private int[] Heap;
+    private int size;
+    private int maxsize;
 
-	// Constructor to initialize an 
-	// empty max heap with given maximum 
-	// capacity. 
-	public HeapTree(int maxsize) 
-	{ 
-		this.maxsize = maxsize; 
-		this.size = 0; 
-		Heap = new int[this.maxsize + 1]; 
-		Heap[0] = Integer.MAX_VALUE; 
-	} 
-
-	// Returns position of parent 
-	private int parent(int pos) 
+    public HeapTree(int maxsize){
+        this.maxsize = maxsize;
+        this.size = 0;
+        this.Heap = new int[1 + this.maxsize];
+        Heap[0] = Integer.MAX_VALUE;
+    }
+    private int parent(int pos) 
 	{ 
 		return pos / 2; 
-	} 
-
-	// Below two functions return left and 
-	// right children. 
+    } 
+    
 	private int leftChild(int pos) 
 	{ 
 		return (2 * pos); 
-	} 
+    } 
+    
 	private int rightChild(int pos) 
 	{ 
 		return (2 * pos) + 1; 
-	} 
-
-	// Returns true of given node is leaf 
-	private boolean isLeaf(int pos) 
+    } 
+    
+    private boolean isLeaf(int pos) 
 	{ 
 		if (pos >= (size / 2) && pos <= size) { 
 			return true; 
@@ -41,39 +32,34 @@ public class HeapTree {
 		return false; 
 	} 
 
-	private void swap(int fpos, int spos) 
+    private void swap(int fpos, int spos) 
 	{ 
 		int tmp; 
 		tmp = Heap[fpos]; 
 		Heap[fpos] = Heap[spos]; 
 		Heap[spos] = tmp; 
-	} 
+    } 
+    
+    // private void maxHeapify(int pos) 
+	// { 
+	// 	if (isLeaf(pos)) 
+	// 		return; 
 
-	// A recursive function to max heapify the given 
-	// subtree. This function assumes that the left and 
-	// right subtrees are already heapified, we only need 
-	// to fix the root. 
-	private void maxHeapify(int pos) 
-	{ 
-		if (isLeaf(pos)) 
-			return; 
+	// 	if (Heap[pos] < Heap[leftChild(pos)] || 
+	// 		Heap[pos] < Heap[rightChild(pos)]) { 
 
-		if (Heap[pos] < Heap[leftChild(pos)] || 
-			Heap[pos] < Heap[rightChild(pos)]) { 
-
-			if (Heap[leftChild(pos)] > Heap[rightChild(pos)]) { 
-				swap(pos, leftChild(pos)); 
-				maxHeapify(leftChild(pos)); 
-			} 
-			else { 
-				swap(pos, rightChild(pos)); 
-				maxHeapify(rightChild(pos)); 
-			} 
-		} 
-	} 
-
-	// Inserts a new element to max heap 
-	public void insert(int element) 
+	// 		if (Heap[leftChild(pos)] > Heap[rightChild(pos)]) { 
+	// 			swap(pos, leftChild(pos)); 
+	// 			maxHeapify(leftChild(pos)); 
+	// 		} 
+	// 		else { 
+	// 			swap(pos, rightChild(pos)); 
+	// 			maxHeapify(rightChild(pos)); 
+	// 		} 
+	// 	} 
+    // } 
+    
+    public void insertMax(int element) 
 	{ 
 		Heap[++size] = element; 
 
@@ -83,9 +69,31 @@ public class HeapTree {
 			swap(current, parent(current)); 
 			current = parent(current); 
 		} 
-	} 
-
-	public void print() 
+	}
+	
+	public void insertMin(int element) 
+    { 
+        if (size >= maxsize) { 
+            return; 
+        } 
+        Heap[++size] = element; 
+        int current = size; 
+  
+        while (Heap[current] < Heap[parent(current)]) { 
+            swap(current, parent(current)); 
+            current = parent(current); 
+        } 
+    }
+    
+    // public int extractMax() 
+	// { 
+	// 	int popped = Heap[1]; 
+	// 	Heap[1] = Heap[size--]; 
+	// 	maxHeapify(1); 
+	// 	return popped; 
+    // } 
+    
+    public void print() 
 	{ 
 		for (int i = 1; i <= size / 2; i++) { 
 			System.out.print(" PARENT : " + Heap[i] + " LEFT CHILD : " + 
@@ -94,30 +102,15 @@ public class HeapTree {
 		} 
 	} 
 
-	// Remove an element from max heap 
-	public int extractMax() 
-	{ 
-		int popped = Heap[1]; 
-		Heap[1] = Heap[size--]; 
-		maxHeapify(1); 
-		return popped; 
-	} 
-
-	public static void main(String[] arg) 
-	{ 
-		System.out.println("The Max Heap is "); 
-		HeapTree maxHeap = new HeapTree(15); 
-		maxHeap.insert(5); 
-		maxHeap.insert(3); 
-		maxHeap.insert(17); 
-		maxHeap.insert(10); 
-		maxHeap.insert(84); 
-		maxHeap.insert(19); 
-		maxHeap.insert(6); 
-		maxHeap.insert(22); 
-		maxHeap.insert(9); 
-
-		maxHeap.print(); 
-		System.out.println("The max val is " + maxHeap.extractMax()); 
-	} 
-} 
+    public static void main(String[] args) {
+        HeapTree heapTree = new HeapTree(15);
+        heapTree.insertMin(10);
+        heapTree.insertMin(20);
+        heapTree.insertMin(30);
+        heapTree.insertMin(40);
+        heapTree.insertMin(50);
+        heapTree.insertMin(60);
+        heapTree.insertMin(70);
+		heapTree.print();
+    }
+}
