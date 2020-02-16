@@ -1,3 +1,5 @@
+// package Trees;
+
 public class Node 
 { 
     int data; 
@@ -7,5 +9,10 @@ public class Node
     { 
         this.data = data; 
         left = right = null; 
-    } 
+    }
+    public Node(int data, Node left, Node right){
+	    this.data = data;
+	    this.left = left;
+	    this.right = right;
+    }
 }
